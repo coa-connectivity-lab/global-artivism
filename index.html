@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Movement, Water, Connection</title>
+<meta name="description" content="Field illustration and GIS maps from the Côa Valley, Portugal. A coa-connectivity-lab contribution to Global Artivism Month, 1 November to 10 December 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root {
+  --bg: #f7f3ea;
+  --surface: #fffdf8;
+  --ink: #1f2a24;
+  --muted: #5b6660;
+  --line: #d9d1c0;
+  --accent: #b5532f;
+  --accent-2: #2f5d62;
+  --ph: #ece5d6;
+  --shadow: 0 1px 2px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #151a17; --surface: #1d2420; --ink: #ece7dc; --muted: #a4ada7;
+    --line: #34403a; --accent: #e08a62; --accent-2: #7fb3b8; --ph: #232b27;
+    --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #151a17; --surface: #1d2420; --ink: #ece7dc; --muted: #a4ada7;
+  --line: #34403a; --accent: #e08a62; --accent-2: #7fb3b8; --ph: #232b27;
+  --shadow: none;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 17px/1.6 "Source Sans 3", system-ui, sans-serif;
+}
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+h1, h2, h3 { font-family: Fraunces, Georgia, serif; font-weight: 600; line-height: 1.2; }
+h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); margin: .2em 0 .1em; }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2rem); margin: 0 0 .6em; }
+h3 { font-size: 1.2rem; margin: 0 0 .3em; }
+a { color: var(--accent-2); }
+p { margin: 0 0 1em; }
+.muted { color: var(--muted); }
+
+/* language switch: without JS every language shows, in order */
+html[data-ui="en"] body [lang]:not([lang="en"]),
+html[data-ui="pt"] body [lang]:not([lang="pt"]),
+html[data-ui="fr"] body [lang]:not([lang="fr"]) { display: none; }
+html:not([data-ui]) body [lang="pt"],
+html:not([data-ui]) body [lang="fr"] { border-left: 3px solid var(--line); padding-left: .6em; }
+
+header.top { border-bottom: 1px solid var(--line); }
+.bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 16px; max-width: 1080px; margin: 0 auto; }
+.brand { font-weight: 600; letter-spacing: .02em; }
+.langs { display: flex; gap: 4px; }
+.langs button {
+  font: inherit; font-size: .85rem; padding: 4px 10px; border-radius: 999px;
+  border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer;
+}
+.langs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+.hero { padding: 48px 0 24px; }
+.tag {
+  display: inline-block; font-size: .85rem; letter-spacing: .06em; text-transform: uppercase;
+  color: var(--accent); font-weight: 600;
+}
+.lede { font-size: 1.2rem; max-width: 46em; color: var(--muted); }
+
+section { padding: 40px 0; border-top: 1px solid var(--line); }
+
+dl.facts {
+  display: grid; grid-template-columns: max-content 1fr; gap: 6px 20px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  padding: 18px 20px; margin: 0 0 32px; box-shadow: var(--shadow);
+}
+dl.facts dt { color: var(--muted); font-size: .9rem; padding-top: 2px; }
+dl.facts dd { margin: 0; }
+@media (max-width: 560px) {
+  dl.facts { grid-template-columns: 1fr; }
+  dl.facts dd { margin-bottom: 8px; }
+}
+
+.panel {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 36px;
+}
+.panel-head { grid-column: 1 / -1; }
+.panel-head h3 { font-size: 1.5rem; }
+figure { margin: 0; }
+figure img { display: block; width: 100%; height: auto; border-radius: 8px; }
+.map-fig { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 10px; }
+.map-fig img { max-height: 560px; object-fit: contain; }
+figcaption { font-size: .9rem; color: var(--muted); margin-top: 8px; }
+
+/* illustration slot: shows the placeholder until a real file is dropped into img/ */
+.slot {
+  position: relative; aspect-ratio: 4 / 5; border-radius: 10px;
+  background: var(--ph); border: 2px dashed var(--line);
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  color: var(--muted); padding: 16px; overflow: hidden;
+}
+.slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
+.slot .label { font-family: Fraunces, Georgia, serif; font-size: 1.05rem; }
+@media (max-width: 720px) { .panel { grid-template-columns: 1fr; } }
+
+.sketches { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.sketches .slot { aspect-ratio: 1; font-size: .85rem; }
+
+#sitemap { height: 420px; border-radius: 10px; border: 1px solid var(--line); z-index: 0; }
+
+.ways { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 8px 0 28px; }
+@media (max-width: 800px) { .ways { grid-template-columns: 1fr; } }
+.card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  padding: 18px 20px; box-shadow: var(--shadow);
+}
+.card .num { font-family: Fraunces, Georgia, serif; color: var(--accent); font-size: 1.1rem; }
+
+table.timeline { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+.timeline th, .timeline td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.timeline th { width: 34%; font-weight: 600; white-space: nowrap; }
+@media (max-width: 560px) { .timeline th { white-space: normal; } }
+
+.note {
+  background: var(--surface); border-left: 4px solid var(--accent);
+  padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0;
+}
+.question { font-family: Fraunces, Georgia, serif; font-size: 1.25rem; color: var(--accent-2); }
+
+footer { border-top: 1px solid var(--line); padding: 28px 0 48px; font-size: .9rem; color: var(--muted); }
+footer p { margin: 0 0 .5em; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="bar">
+    <span class="brand">coa-connectivity-lab</span>
+    <nav class="langs" aria-label="Language">
+      <button type="button" data-set="en">EN</button>
+      <button type="button" data-set="pt">PT</button>
+      <button type="button" data-set="fr">FR</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- Hero -->
+  <div class="hero">
+    <span class="tag" lang="en">Global Artivism Month · 1 November to 10 December 2026</span>
+    <span class="tag" lang="pt">Mês Global do Artivismo · 1 de novembro a 10 de dezembro de 2026</span>
+    <span class="tag" lang="fr">Mois mondial de l'artivisme · 1er novembre au 10 décembre 2026</span>
+    <h1>Movement, Water, Connection</h1>
+    <p class="lede" lang="en">Field illustration and GIS maps from the Côa Valley, Portugal. Drawings made on the ground and connectivity maps modelled from open data, read side by side.</p>
+    <p class="lede" lang="pt">Ilustração de campo e mapas SIG do Vale do Côa, Portugal. Desenhos feitos no terreno e mapas de conectividade modelados a partir de dados abertos, lidos lado a lado.</p>
+    <p class="lede" lang="fr">Illustration de terrain et cartes SIG de la vallée du Côa, au Portugal. Des dessins faits sur place et des cartes de connectivité modélisées à partir de données ouvertes, lus côte à côte.</p>
+  </div>
+
+  <!-- The work -->
+  <section id="work">
+    <h2 lang="en">The work</h2>
+    <h2 lang="pt">A obra</h2>
+    <h2 lang="fr">L'œuvre</h2>
+
+    <dl class="facts">
+      <dt lang="en">Title</dt><dt lang="pt">Título</dt><dt lang="fr">Titre</dt>
+      <dd>Movement, Water, Connection: field notes and maps from the Côa Valley</dd>
+
+      <dt lang="en">Credit</dt><dt lang="pt">Crédito</dt><dt lang="fr">Crédit</dt>
+      <dd>Linda Angulo Lopez, coa-connectivity-lab</dd>
+
+      <dt lang="en">Year and place</dt><dt lang="pt">Ano e local</dt><dt lang="fr">Année et lieu</dt>
+      <dd lang="en">2026, Greater Côa Valley, Portugal</dd>
+      <dd lang="pt">2026, Grande Vale do Côa, Portugal</dd>
+      <dd lang="fr">2026, grande vallée du Côa, Portugal</dd>
+
+      <dt lang="en">Medium</dt><dt lang="pt">Técnica</dt><dt lang="fr">Médium</dt>
+      <dd lang="en">Illustration and digital GIS maps</dd>
+      <dd lang="pt">Ilustração e mapas SIG digitais</dd>
+      <dd lang="fr">Illustration et cartes SIG numériques</dd>
+
+      <dt lang="en">About</dt><dt lang="pt">Sobre</dt><dt lang="fr">Propos</dt>
+      <dd lang="en">Where can a wolf, an otter or a seed still move through a valley shaped by dams, roads and fire? The drawings answer from the ground, the maps from the data.</dd>
+      <dd lang="pt">Por onde podem ainda passar um lobo, uma lontra ou uma semente num vale marcado por barragens, estradas e fogo? Os desenhos respondem a partir do terreno, os mapas a partir dos dados.</dd>
+      <dd lang="fr">Par où un loup, une loutre ou une graine peuvent-ils encore passer dans une vallée façonnée par les barrages, les routes et le feu ? Les dessins répondent depuis le terrain, les cartes depuis les données.</dd>
+    </dl>
+
+    <!-- Movement -->
+    <div class="panel">
+      <div class="panel-head">
+        <h3 lang="en">i. Movement</h3><h3 lang="pt">i. Movimento</h3><h3 lang="fr">i. Mouvement</h3>
+        <p class="muted" lang="en">Large herbivores and predators keep the valley open and alive.</p>
+        <p class="muted" lang="pt">Grandes herbívoros e predadores mantêm o vale aberto e vivo.</p>
+        <p class="muted" lang="fr">Les grands herbivores et les prédateurs gardent la vallée ouverte et vivante.</p>
+      </div>
+      <figure>
+        <div class="slot">
+          <img src="img/movement.jpg" alt="Field illustration: Movement" onerror="this.remove()">
+          <span class="label" lang="en">Plate in progress<br>Herbivores at Vale Carapito</span>
+          <span class="label" lang="pt">Prancha em curso<br>Herbívoros em Vale Carapito</span>
+          <span class="label" lang="fr">Planche en cours<br>Herbivores à Vale Carapito</span>
+        </div>
+      </figure>
+      <figure class="map-fig">
+        <img src="img/map-movement.png" alt="Map of modelled land connectivity for wolf, wildcat and red deer across the Côa catchment, with the Côa river drawn in dark blue" loading="lazy">
+        <figcaption lang="en">Land connectivity for wolf, wildcat and red deer (Omniscape, fire-aware). Warm colours show where movement concentrates. The dark line is the Côa.</figcaption>
+        <figcaption lang="pt">Conectividade terrestre para lobo, gato-bravo e veado (Omniscape, com efeito do fogo). As cores quentes mostram onde o movimento se concentra. A linha escura é o Côa.</figcaption>
+        <figcaption lang="fr">Connectivité terrestre pour le loup, le chat forestier et le cerf (Omniscape, avec l'effet du feu). Les couleurs chaudes montrent où le mouvement se concentre. La ligne sombre est le Côa.</figcaption>
+      </figure>
+    </div>
+
+    <!-- Water -->
+    <div class="panel">
+      <div class="panel-head">
+        <h3 lang="en">ii. Water</h3><h3 lang="pt">ii. Água</h3><h3 lang="fr">ii. Eau</h3>
+        <p class="muted" lang="en">Wetlands recovering after decades of drainage and damming.</p>
+        <p class="muted" lang="pt">Zonas húmidas a recuperar após décadas de drenagem e barragens.</p>
+        <p class="muted" lang="fr">Des zones humides qui se rétablissent après des décennies de drainage et de barrages.</p>
+      </div>
+      <figure>
+        <div class="slot">
+          <img src="img/water.jpg" alt="Field illustration: Water" onerror="this.remove()">
+          <span class="label" lang="en">Plate in progress<br>Paul de Toirões wetland</span>
+          <span class="label" lang="pt">Prancha em curso<br>Paul de Toirões</span>
+          <span class="label" lang="fr">Planche en cours<br>Zone humide de Paul de Toirões</span>
+        </div>
+      </figure>
+      <figure class="map-fig">
+        <img src="img/map-water.png" alt="Map of modelled connectivity for species that move along water in the Côa catchment" loading="lazy">
+        <figcaption lang="en">Connectivity for species that move along rivers and streams (Omniscape, catchment-aware).</figcaption>
+        <figcaption lang="pt">Conectividade para espécies que se deslocam ao longo de rios e ribeiras (Omniscape, à escala da bacia).</figcaption>
+        <figcaption lang="fr">Connectivité pour les espèces qui se déplacent le long des rivières et des ruisseaux (Omniscape, à l'échelle du bassin versant).</figcaption>
+      </figure>
+    </div>
+
+    <!-- Connection -->
+    <div class="panel">
+      <div class="panel-head">
+        <h3 lang="en">iii. Connection</h3><h3 lang="pt">iii. Ligação</h3><h3 lang="fr">iii. Lien</h3>
+        <p class="muted" lang="en">Valleys, habitats and 25,000 years of human history, working together.</p>
+        <p class="muted" lang="pt">Vales, habitats e 25 000 anos de história humana, a funcionar em conjunto.</p>
+        <p class="muted" lang="fr">Vallées, habitats et 25 000 ans d'histoire humaine, qui fonctionnent ensemble.</p>
+      </div>
+      <figure>
+        <div class="slot">
+          <img src="img/connection.jpg" alt="Field illustration: Connection" onerror="this.remove()">
+          <span class="label" lang="en">Plate in progress<br>Côa gorge and Penascosa rock art</span>
+          <span class="label" lang="pt">Prancha em curso<br>Garganta do Côa e gravuras da Penascosa</span>
+          <span class="label" lang="fr">Planche en cours<br>Gorges du Côa et gravures de Penascosa</span>
+        </div>
+      </figure>
+      <figure class="map-fig">
+        <img src="img/map-connection.png" alt="Map of multispecies mean connectivity across the Côa catchment, strongest along the lower Côa" loading="lazy">
+        <figcaption lang="en">Multispecies connectivity, weighted mean of land, water and air. The strongest corridor follows the lower Côa north to the Douro.</figcaption>
+        <figcaption lang="pt">Conectividade multiespécies, média ponderada de terra, água e ar. O corredor mais forte segue o baixo Côa para norte, até ao Douro.</figcaption>
+        <figcaption lang="fr">Connectivité multi-espèces, moyenne pondérée terre, eau et air. Le corridor le plus fort suit le bas Côa vers le nord, jusqu'au Douro.</figcaption>
+      </figure>
+    </div>
+
+    <!-- Field sites -->
+    <h3 lang="en">Where the drawings were made</h3>
+    <h3 lang="pt">Onde os desenhos foram feitos</h3>
+    <h3 lang="fr">Où les dessins ont été faits</h3>
+    <p class="muted" lang="en">Twenty field sites visited in August 2026, from the source of the Côa at Fóios to Faia Brava. Species records are not shown, to protect sensitive animals.</p>
+    <p class="muted" lang="pt">Vinte locais visitados em agosto de 2026, da nascente do Côa, em Fóios, até à Faia Brava. Os registos de espécies não são mostrados, para proteger animais sensíveis.</p>
+    <p class="muted" lang="fr">Vingt sites visités en août 2026, de la source du Côa à Fóios jusqu'à Faia Brava. Les observations d'espèces ne sont pas affichées, pour protéger les animaux sensibles.</p>
+    <div id="sitemap" role="region" aria-label="Map of field sites"></div>
+
+    <h3 style="margin-top:32px" lang="en">Supporting studies</h3>
+    <h3 style="margin-top:32px" lang="pt">Estudos de apoio</h3>
+    <h3 style="margin-top:32px" lang="fr">Études préparatoires</h3>
+    <div class="sketches" id="sketches"></div>
+  </section>
+
+  <!-- Why -->
+  <section id="why">
+    <h2 lang="en">Why draw and map the same valley</h2>
+    <h2 lang="pt">Porquê desenhar e mapear o mesmo vale</h2>
+    <h2 lang="fr">Pourquoi dessiner et cartographier la même vallée</h2>
+
+    <div lang="en">
+      <p>I spent August 2026 walking and drawing the Côa, from its source at Fóios to the rock art at Penascosa, while modelling how animals might move across the same ground. The two methods correct each other. (i) Drawing slows the eye down, so it catches what the model misses: a new fence, a dry pool, a stone bridge an otter still uses. (ii) The map shows what one walker cannot see: the pinch points where a single new road would cut a corridor. (iii) Together they make an argument for restoration that people living in the valley can read, and challenge.</p>
+      <p>The maps are models, not counts. They show where movement is likely to concentrate, not where anyone has seen a wolf.</p>
+      <p>"Safe and just" did not start as a scientific framework. It comes from Indigenous Science and community-led climate justice (Jessica Hernandez, <em>Fresh Banana Leaves</em>, 2022), and was only later put into numbers by the Earth Commission (Rockström, Gupta et al., <em>Nature</em>, 2023). I grew up on South Africa's Wild Coast and worked on land restoration there after apartheid, and I read this valley from that starting point. A corridor that works for wildlife is half the job. The other half is who gets to use it, and who decides.</p>
+      <p class="question">Who draws the map of your valley, and who is missing from the room when it is drawn?</p>
+    </div>
+    <div lang="pt">
+      <p>Passei agosto de 2026 a percorrer e a desenhar o Côa, da nascente em Fóios às gravuras da Penascosa, enquanto modelava a forma como os animais se podem deslocar pelo mesmo território. Os dois métodos corrigem-se um ao outro. (i) O desenho abranda o olhar e capta o que o modelo não vê: uma vedação nova, uma charca seca, uma ponte de pedra que uma lontra ainda usa. (ii) O mapa mostra o que quem caminha não consegue ver: os pontos de estrangulamento onde uma única estrada nova cortaria um corredor. (iii) Juntos, formam um argumento a favor do restauro que quem vive no vale pode ler e contestar.</p>
+      <p>Os mapas são modelos, não contagens. Mostram onde é provável que o movimento se concentre, não onde alguém viu um lobo.</p>
+      <p>"Seguro e justo" não nasceu como um quadro científico. Vem da Ciência Indígena e da justiça climática liderada por comunidades (Jessica Hernandez, <em>Fresh Banana Leaves</em>, 2022), e só mais tarde foi quantificado pela Earth Commission (Rockström, Gupta et al., <em>Nature</em>, 2023). Cresci na Wild Coast, na África do Sul, e trabalhei ali em restauro de terras depois do apartheid; é desse ponto de partida que leio este vale. Um corredor que funciona para a vida selvagem é metade do trabalho. A outra metade é saber quem o pode usar, e quem decide.</p>
+      <p class="question">Quem desenha o mapa do seu vale, e quem falta na sala quando ele é desenhado?</p>
+    </div>
+    <div lang="fr">
+      <p>J'ai passé août 2026 à parcourir et dessiner le Côa, de sa source à Fóios jusqu'aux gravures de Penascosa, tout en modélisant la façon dont les animaux peuvent traverser ce même territoire. Les deux méthodes se corrigent l'une l'autre. (i) Le dessin ralentit le regard et saisit ce que le modèle ne voit pas : une clôture neuve, une mare asséchée, un pont de pierre qu'une loutre emprunte encore. (ii) La carte montre ce qu'un marcheur seul ne peut pas voir : les points de pincement où une seule route nouvelle couperait un corridor. (iii) Ensemble, ils forment un argument en faveur de la restauration que les habitants de la vallée peuvent lire, et contester.</p>
+      <p>Les cartes sont des modèles, pas des comptages. Elles montrent où le mouvement a des chances de se concentrer, pas où quelqu'un a vu un loup.</p>
+      <p>« Sûr et juste » n'est pas né comme un cadre scientifique. L'idée vient des sciences autochtones et de la justice climatique portée par les communautés (Jessica Hernandez, <em>Fresh Banana Leaves</em>, 2022), et n'a été chiffrée que plus tard par la Earth Commission (Rockström, Gupta et al., <em>Nature</em>, 2023). J'ai grandi sur la Wild Coast, en Afrique du Sud, et j'y ai travaillé à la restauration des terres après l'apartheid ; c'est depuis ce point de départ que je lis cette vallée. Un corridor qui fonctionne pour la faune, c'est la moitié du travail. L'autre moitié, c'est qui peut l'utiliser, et qui décide.</p>
+      <p class="question">Qui dessine la carte de votre vallée, et qui manque dans la salle quand elle est dessinée ?</p>
+    </div>
+  </section>
+
+  <!-- Call -->
+  <section id="join">
+    <h2 lang="en">Join the Côa call</h2>
+    <h2 lang="pt">Junte-se à chamada do Côa</h2>
+    <h2 lang="fr">Rejoindre l'appel du Côa</h2>
+    <p lang="en">An open invitation to illustrators, field-notebook keepers, ecologists, farmers and anyone who lives near the Côa, or cares about a river of their own. You do not need experience, funding or to travel.</p>
+    <p lang="pt">Um convite aberto a ilustradores, a quem mantém cadernos de campo, ecólogos, agricultores e a quem vive perto do Côa, ou se preocupa com um rio seu. Não é preciso experiência, financiamento nem viajar.</p>
+    <p lang="fr">Une invitation ouverte aux illustrateurs, aux tenants de carnets de terrain, aux écologues, aux agriculteurs et à toute personne qui vit près du Côa, ou qui tient à sa propre rivière. Pas besoin d'expérience, de financement ni de voyager.</p>
+
+    <div class="ways">
+      <div class="card">
+        <div class="num">i.</div>
+        <h3 lang="en">Witness</h3><h3 lang="pt">Testemunhar</h3><h3 lang="fr">Témoigner</h3>
+        <p lang="en">Follow the month and share the weekly posts with your own networks.</p>
+        <p lang="pt">Acompanhe o mês e partilhe as publicações semanais nas suas redes.</p>
+        <p lang="fr">Suivez le mois et partagez les publications hebdomadaires dans vos réseaux.</p>
+      </div>
+      <div class="card">
+        <div class="num">ii.</div>
+        <h3 lang="en">Contribute one page</h3><h3 lang="pt">Contribuir com uma página</h3><h3 lang="fr">Contribuer une page</h3>
+        <p lang="en">One place, one species, one sentence. Pencil, watercolour, phone photo or a map, from the field or from home.</p>
+        <p lang="pt">Um lugar, uma espécie, uma frase. Lápis, aguarela, fotografia de telemóvel ou um mapa, no campo ou em casa.</p>
+        <p lang="fr">Un lieu, une espèce, une phrase. Crayon, aquarelle, photo au téléphone ou carte, sur le terrain ou chez vous.</p>
+      </div>
+      <div class="card">
+        <div class="num">iii.</div>
+        <h3 lang="en">Co-create</h3><h3 lang="pt">Cocriar</h3><h3 lang="fr">Co-créer</h3>
+        <p lang="en">Add your page to a shared map and zine of the Côa corridor, published on Human Rights Day.</p>
+        <p lang="pt">Junte a sua página a um mapa e a um zine coletivos do corredor do Côa, publicados no Dia dos Direitos Humanos.</p>
+        <p lang="fr">Ajoutez votre page à une carte et un fanzine collectifs du corridor du Côa, publiés le jour des droits de l'homme.</p>
+      </div>
+    </div>
+
+    <table class="timeline">
+      <tbody>
+        <tr>
+          <th lang="en">6 to 23 October</th><th lang="pt">6 a 23 de outubro</th><th lang="fr">6 au 23 octobre</th>
+          <td lang="en">Sign-up open</td><td lang="pt">Inscrições abertas</td><td lang="fr">Inscriptions ouvertes</td>
+        </tr>
+        <tr>
+          <th lang="en">26 October</th><th lang="pt">26 de outubro</th><th lang="fr">26 octobre</th>
+          <td lang="en">Welcome pack and a short online kick-off</td><td lang="pt">Kit de boas-vindas e uma curta sessão de arranque online</td><td lang="fr">Kit de bienvenue et courte réunion de lancement en ligne</td>
+        </tr>
+        <tr>
+          <th lang="en">1 November</th><th lang="pt">1 de novembro</th><th lang="fr">1er novembre</th>
+          <td lang="en">The month opens. A new prompt every Monday, a round-up every Friday</td><td lang="pt">Abertura do mês. Um novo tema cada segunda-feira, um resumo cada sexta-feira</td><td lang="fr">Ouverture du mois. Une nouvelle consigne chaque lundi, un récapitulatif chaque vendredi</td>
+        </tr>
+        <tr>
+          <th lang="en">10 December</th><th lang="pt">10 de dezembro</th><th lang="fr">10 décembre</th>
+          <td lang="en">Human Rights Day. Closing gallery and zine</td><td lang="pt">Dia dos Direitos Humanos. Galeria e zine de encerramento</td><td lang="fr">Journée des droits de l'homme. Galerie et fanzine de clôture</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 lang="en">How to join</h3><h3 lang="pt">Como participar</h3><h3 lang="fr">Comment participer</h3>
+    <p lang="en">Introduce yourself in the <a href="https://github.com/coa-connectivity-lab/global-artivism/discussions">project discussion</a>: your name, your place, and which of the three ways you would like to take part.</p>
+    <p lang="pt">Apresente-se na <a href="https://github.com/coa-connectivity-lab/global-artivism/discussions">discussão do projeto</a>: o seu nome, o seu lugar e qual das três formas de participação prefere.</p>
+    <p lang="fr">Présentez-vous dans la <a href="https://github.com/coa-connectivity-lab/global-artivism/discussions">discussion du projet</a> : votre nom, votre lieu, et laquelle des trois façons de participer vous intéresse.</p>
+    <!-- TODO before 6 October: add a contact for people without a GitHub account -->
+    <p class="note" lang="en">No GitHub account? A photo of a paper page is enough. A contact that does not need an account will be added here before sign-up opens on 6 October.</p>
+    <p class="note" lang="pt">Não tem conta no GitHub? Uma fotografia de uma página em papel basta. Um contacto que não exige conta será indicado aqui antes da abertura das inscrições, a 6 de outubro.</p>
+    <p class="note" lang="fr">Pas de compte GitHub ? Une photo d'une page papier suffit. Un contact ne nécessitant pas de compte sera indiqué ici avant l'ouverture des inscriptions, le 6 octobre.</p>
+  </section>
+
+  <!-- Rights -->
+  <section id="rights">
+    <h2 lang="en">Rights and consent</h2>
+    <h2 lang="pt">Direitos e consentimento</h2>
+    <h2 lang="fr">Droits et consentement</h2>
+    <p lang="en">(i) You keep the rights to your work. (ii) Pages are shared under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a> unless you ask otherwise. (iii) Inclusion in the printed zine is opt-in. (iv) Do not show people, or exact locations of sensitive species, in ways that could put anyone at risk.</p>
+    <p lang="pt">(i) Os direitos da obra são seus. (ii) As páginas são partilhadas sob <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.pt">CC BY-NC 4.0</a>, salvo pedido em contrário. (iii) A inclusão no zine impresso é opcional. (iv) Não mostre pessoas, nem a localização exata de espécies sensíveis, de forma que possa pôr alguém em risco.</p>
+    <p lang="fr">(i) Vous gardez les droits sur votre œuvre. (ii) Les pages sont partagées sous <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.fr">CC BY-NC 4.0</a>, sauf demande contraire. (iii) L'inclusion dans le fanzine imprimé se fait sur accord. (iv) Ne montrez pas de personnes, ni la localisation exacte d'espèces sensibles, d'une manière qui pourrait mettre quelqu'un en danger.</p>
+    <p class="muted" lang="en">This is a locally organised action registered for Global Artivism Month. It is not run by the Global Artivism team.</p>
+    <p class="muted" lang="pt">Esta é uma ação organizada localmente e inscrita no Mês Global do Artivismo. Não é gerida pela equipa do Global Artivism.</p>
+    <p class="muted" lang="fr">Il s'agit d'une action organisée localement et inscrite au Mois mondial de l'artivisme. Elle n'est pas gérée par l'équipe de Global Artivism.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p lang="en">Maps: Linda Angulo Lopez, from the <a href="https://www.data.gouv.fr/datasets/coa-valley-eco-connectivity-v6">Côa Valley Eco-Connectivity v6</a> dataset (Licence Ouverte 2.0). Underlying data: OpenStreetMap contributors (ODbL), HydroRIVERS (CC BY 4.0), NASA MODIS MCD64A1, Copernicus.</p>
+    <p lang="pt">Mapas: Linda Angulo Lopez, a partir do conjunto de dados <a href="https://www.data.gouv.fr/datasets/coa-valley-eco-connectivity-v6">Côa Valley Eco-Connectivity v6</a> (Licence Ouverte 2.0). Dados de base: contribuidores do OpenStreetMap (ODbL), HydroRIVERS (CC BY 4.0), NASA MODIS MCD64A1, Copernicus.</p>
+    <p lang="fr">Cartes : Linda Angulo Lopez, d'après le jeu de données <a href="https://www.data.gouv.fr/datasets/coa-valley-eco-connectivity-v6">Côa Valley Eco-Connectivity v6</a> (Licence Ouverte 2.0). Données sources : contributeurs OpenStreetMap (ODbL), HydroRIVERS (CC BY 4.0), NASA MODIS MCD64A1, Copernicus.</p>
+    <p lang="en">Illustrations and text: Linda Angulo Lopez, 2026, <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. Code: <a href="https://github.com/coa-connectivity-lab/global-artivism">github.com/coa-connectivity-lab/global-artivism</a>.</p>
+    <p lang="pt">Ilustrações e texto: Linda Angulo Lopez, 2026, <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.pt">CC BY-NC 4.0</a>. Código: <a href="https://github.com/coa-connectivity-lab/global-artivism">github.com/coa-connectivity-lab/global-artivism</a>.</p>
+    <p lang="fr">Illustrations et texte : Linda Angulo Lopez, 2026, <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.fr">CC BY-NC 4.0</a>. Code : <a href="https://github.com/coa-connectivity-lab/global-artivism">github.com/coa-connectivity-lab/global-artivism</a>.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+// Language: saved choice, else browser language, else English
+(function () {
+  var supported = ["en", "pt", "fr"];
+  var saved = null;
+  try { saved = localStorage.getItem("ga-lang"); } catch (e) {}
+  var browser = (navigator.language || "en").slice(0, 2);
+  var lang = supported.indexOf(saved) > -1 ? saved : (supported.indexOf(browser) > -1 ? browser : "en");
+
+  function setLang(l) {
+    document.documentElement.setAttribute("data-ui", l);
+    document.documentElement.lang = l;
+    document.querySelectorAll(".langs button").forEach(function (b) {
+      b.setAttribute("aria-pressed", b.dataset.set === l);
+    });
+    try { localStorage.setItem("ga-lang", l); } catch (e) {}
+  }
+  document.querySelectorAll(".langs button").forEach(function (b) {
+    b.addEventListener("click", function () { setLang(b.dataset.set); });
+  });
+  setLang(lang);
+})();
+
+// Supporting-sketch slots: drop sketch-01.jpg ... sketch-12.jpg into img/
+(function () {
+  var grid = document.getElementById("sketches");
+  for (var i = 1; i <= 12; i++) {
+    var n = String(i).padStart(2, "0");
+    grid.insertAdjacentHTML("beforeend",
+      '<div class="slot"><img src="img/sketch-' + n + '.jpg" alt="Supporting study ' + i + '" loading="lazy" onerror="this.remove()">' +
+      '<span class="label">' + i + '</span></div>');
+  }
+})();
+
+// Field-site map
+(function () {
+  if (!window.L) return;
+  var map = L.map("sitemap", { scrollWheelZoom: false });
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 16,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+  fetch("data/field-sites.geojson")
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      var layer = L.geoJSON(data, {
+        pointToLayer: function (f, latlng) {
+          return L.circleMarker(latlng, { radius: 7, color: "#fff", weight: 2, fillColor: "#b5532f", fillOpacity: .9 });
+        },
+        onEachFeature: function (f, l) {
+          var d = f.properties.date && f.properties.date !== "None" ? "<br>" + f.properties.date : "";
+          l.bindPopup("<strong>" + f.properties.site_name + "</strong>" + d);
+        }
+      }).addTo(map);
+      map.fitBounds(layer.getBounds(), { padding: [20, 20] });
+    })
+    .catch(function () { document.getElementById("sitemap").style.display = "none"; });
+})();
+</script>
+</body>
+</html>
