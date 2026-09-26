@@ -51,8 +51,10 @@ p { margin: 0 0 1em; }
 /* language switch: without JS every language shows, in order */
 html[data-ui="en"] body [lang]:not([lang="en"]),
 html[data-ui="pt"] body [lang]:not([lang="pt"]),
+html[data-ui="es"] body [lang]:not([lang="es"]),
 html[data-ui="fr"] body [lang]:not([lang="fr"]) { display: none; }
 html:not([data-ui]) body [lang="pt"],
+html:not([data-ui]) body [lang="es"],
 html:not([data-ui]) body [lang="fr"] { border-left: 3px solid var(--line); padding-left: .6em; }
 
 header.top { border-bottom: 1px solid var(--line); }
@@ -64,6 +66,10 @@ header.top { border-bottom: 1px solid var(--line); }
   border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer;
 }
 .langs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+@media (max-width: 400px) {
+  .brand { font-size: .9rem; }
+  .langs button { padding: 4px 7px; }
+}
 
 .hero { padding: 48px 0 24px; }
 .tag {
@@ -144,6 +150,7 @@ footer p { margin: 0 0 .5em; }
     <nav class="langs" aria-label="Language">
       <button type="button" data-set="en">EN</button>
       <button type="button" data-set="pt">PT</button>
+      <button type="button" data-set="es">ES</button>
       <button type="button" data-set="fr">FR</button>
     </nav>
   </div>
@@ -155,10 +162,12 @@ footer p { margin: 0 0 .5em; }
   <div class="hero">
     <span class="tag" lang="en">Global Artivism Month · 1 November to 10 December 2026</span>
     <span class="tag" lang="pt">Mês Global do Artivismo · 1 de novembro a 10 de dezembro de 2026</span>
+    <span class="tag" lang="es">Mes Global del Artivismo · 1 de noviembre al 10 de diciembre de 2026</span>
     <span class="tag" lang="fr">Mois mondial de l'artivisme · 1er novembre au 10 décembre 2026</span>
     <h1>Movement, Water, Connection</h1>
     <p class="lede" lang="en">Field illustration and GIS maps from the Côa Valley, Portugal. Drawings made on the ground and connectivity maps modelled from open data, read side by side.</p>
     <p class="lede" lang="pt">Ilustração de campo e mapas SIG do Vale do Côa, Portugal. Desenhos feitos no terreno e mapas de conectividade modelados a partir de dados abertos, lidos lado a lado.</p>
+    <p class="lede" lang="es">Ilustración de campo y mapas SIG del valle del Côa, Portugal. Dibujos hechos sobre el terreno y mapas de conectividad modelados a partir de datos abiertos, leídos uno junto al otro.</p>
     <p class="lede" lang="fr">Illustration de terrain et cartes SIG de la vallée du Côa, au Portugal. Des dessins faits sur place et des cartes de connectivité modélisées à partir de données ouvertes, lus côte à côte.</p>
   </div>
 
@@ -166,37 +175,42 @@ footer p { margin: 0 0 .5em; }
   <section id="work">
     <h2 lang="en">The work</h2>
     <h2 lang="pt">A obra</h2>
+    <h2 lang="es">La obra</h2>
     <h2 lang="fr">L'œuvre</h2>
 
     <dl class="facts">
-      <dt lang="en">Title</dt><dt lang="pt">Título</dt><dt lang="fr">Titre</dt>
+      <dt lang="en">Title</dt><dt lang="pt">Título</dt><dt lang="es">Título</dt><dt lang="fr">Titre</dt>
       <dd>Movement, Water, Connection: field notes and maps from the Côa Valley</dd>
 
-      <dt lang="en">Credit</dt><dt lang="pt">Crédito</dt><dt lang="fr">Crédit</dt>
+      <dt lang="en">Credit</dt><dt lang="pt">Crédito</dt><dt lang="es">Crédito</dt><dt lang="fr">Crédit</dt>
       <dd>Linda Angulo Lopez, coa-connectivity-lab</dd>
 
-      <dt lang="en">Year and place</dt><dt lang="pt">Ano e local</dt><dt lang="fr">Année et lieu</dt>
+      <dt lang="en">Year and place</dt><dt lang="pt">Ano e local</dt><dt lang="es">Año y lugar</dt><dt lang="fr">Année et lieu</dt>
       <dd lang="en">2026, Greater Côa Valley, Portugal</dd>
       <dd lang="pt">2026, Grande Vale do Côa, Portugal</dd>
+      <dd lang="es">2026, Gran Valle del Côa, Portugal</dd>
       <dd lang="fr">2026, grande vallée du Côa, Portugal</dd>
 
-      <dt lang="en">Medium</dt><dt lang="pt">Técnica</dt><dt lang="fr">Médium</dt>
+      <dt lang="en">Medium</dt><dt lang="pt">Técnica</dt><dt lang="es">Técnica</dt><dt lang="fr">Médium</dt>
       <dd lang="en">Illustration and digital GIS maps</dd>
       <dd lang="pt">Ilustração e mapas SIG digitais</dd>
+      <dd lang="es">Ilustración y mapas SIG digitales</dd>
       <dd lang="fr">Illustration et cartes SIG numériques</dd>
 
-      <dt lang="en">About</dt><dt lang="pt">Sobre</dt><dt lang="fr">Propos</dt>
+      <dt lang="en">About</dt><dt lang="pt">Sobre</dt><dt lang="es">Sobre la obra</dt><dt lang="fr">Propos</dt>
       <dd lang="en">Where can a wolf, an otter or a seed still move through a valley shaped by dams, roads and fire? The drawings answer from the ground, the maps from the data.</dd>
       <dd lang="pt">Por onde podem ainda passar um lobo, uma lontra ou uma semente num vale marcado por barragens, estradas e fogo? Os desenhos respondem a partir do terreno, os mapas a partir dos dados.</dd>
+      <dd lang="es">¿Por dónde pueden todavía pasar un lobo, una nutria o una semilla en un valle marcado por presas, carreteras y fuego? Los dibujos responden desde el terreno, los mapas desde los datos.</dd>
       <dd lang="fr">Par où un loup, une loutre ou une graine peuvent-ils encore passer dans une vallée façonnée par les barrages, les routes et le feu ? Les dessins répondent depuis le terrain, les cartes depuis les données.</dd>
     </dl>
 
     <!-- Movement -->
     <div class="panel">
       <div class="panel-head">
-        <h3 lang="en">i. Movement</h3><h3 lang="pt">i. Movimento</h3><h3 lang="fr">i. Mouvement</h3>
+        <h3 lang="en">i. Movement</h3><h3 lang="pt">i. Movimento</h3><h3 lang="es">i. Movimiento</h3><h3 lang="fr">i. Mouvement</h3>
         <p class="muted" lang="en">Large herbivores and predators keep the valley open and alive.</p>
         <p class="muted" lang="pt">Grandes herbívoros e predadores mantêm o vale aberto e vivo.</p>
+        <p class="muted" lang="es">Los grandes herbívoros y depredadores mantienen el valle abierto y vivo.</p>
         <p class="muted" lang="fr">Les grands herbivores et les prédateurs gardent la vallée ouverte et vivante.</p>
       </div>
       <figure>
@@ -204,6 +218,7 @@ footer p { margin: 0 0 .5em; }
           <img src="img/movement.jpg" alt="Field illustration: Movement" onerror="this.remove()">
           <span class="label" lang="en">Plate in progress<br>Herbivores at Vale Carapito</span>
           <span class="label" lang="pt">Prancha em curso<br>Herbívoros em Vale Carapito</span>
+          <span class="label" lang="es">Lámina en curso<br>Herbívoros en Vale Carapito</span>
           <span class="label" lang="fr">Planche en cours<br>Herbivores à Vale Carapito</span>
         </div>
       </figure>
@@ -211,6 +226,7 @@ footer p { margin: 0 0 .5em; }
         <img src="img/map-movement.png" alt="Map of modelled land connectivity for wolf, wildcat and red deer across the Côa catchment, with the Côa river drawn in dark blue" loading="lazy">
         <figcaption lang="en">Land connectivity for wolf, wildcat and red deer (Omniscape, fire-aware). Warm colours show where movement concentrates. The dark line is the Côa.</figcaption>
         <figcaption lang="pt">Conectividade terrestre para lobo, gato-bravo e veado (Omniscape, com efeito do fogo). As cores quentes mostram onde o movimento se concentra. A linha escura é o Côa.</figcaption>
+        <figcaption lang="es">Conectividad terrestre para lobo, gato montés y ciervo (Omniscape, con el efecto del fuego). Los colores cálidos muestran dónde se concentra el movimiento. La línea oscura es el Côa.</figcaption>
         <figcaption lang="fr">Connectivité terrestre pour le loup, le chat forestier et le cerf (Omniscape, avec l'effet du feu). Les couleurs chaudes montrent où le mouvement se concentre. La ligne sombre est le Côa.</figcaption>
       </figure>
     </div>
@@ -218,9 +234,10 @@ footer p { margin: 0 0 .5em; }
     <!-- Water -->
     <div class="panel">
       <div class="panel-head">
-        <h3 lang="en">ii. Water</h3><h3 lang="pt">ii. Água</h3><h3 lang="fr">ii. Eau</h3>
+        <h3 lang="en">ii. Water</h3><h3 lang="pt">ii. Água</h3><h3 lang="es">ii. Agua</h3><h3 lang="fr">ii. Eau</h3>
         <p class="muted" lang="en">Wetlands recovering after decades of drainage and damming.</p>
         <p class="muted" lang="pt">Zonas húmidas a recuperar após décadas de drenagem e barragens.</p>
+        <p class="muted" lang="es">Humedales que se recuperan tras décadas de drenaje y presas.</p>
         <p class="muted" lang="fr">Des zones humides qui se rétablissent après des décennies de drainage et de barrages.</p>
       </div>
       <figure>
@@ -228,6 +245,7 @@ footer p { margin: 0 0 .5em; }
           <img src="img/water.jpg" alt="Field illustration: Water" onerror="this.remove()">
           <span class="label" lang="en">Plate in progress<br>Paul de Toirões wetland</span>
           <span class="label" lang="pt">Prancha em curso<br>Paul de Toirões</span>
+          <span class="label" lang="es">Lámina en curso<br>Humedal de Paul de Toirões</span>
           <span class="label" lang="fr">Planche en cours<br>Zone humide de Paul de Toirões</span>
         </div>
       </figure>
@@ -235,6 +253,7 @@ footer p { margin: 0 0 .5em; }
         <img src="img/map-water.png" alt="Map of modelled connectivity for species that move along water in the Côa catchment" loading="lazy">
         <figcaption lang="en">Connectivity for species that move along rivers and streams (Omniscape, catchment-aware).</figcaption>
         <figcaption lang="pt">Conectividade para espécies que se deslocam ao longo de rios e ribeiras (Omniscape, à escala da bacia).</figcaption>
+        <figcaption lang="es">Conectividad para especies que se desplazan a lo largo de ríos y arroyos (Omniscape, a escala de cuenca).</figcaption>
         <figcaption lang="fr">Connectivité pour les espèces qui se déplacent le long des rivières et des ruisseaux (Omniscape, à l'échelle du bassin versant).</figcaption>
       </figure>
     </div>
@@ -242,9 +261,10 @@ footer p { margin: 0 0 .5em; }
     <!-- Connection -->
     <div class="panel">
       <div class="panel-head">
-        <h3 lang="en">iii. Connection</h3><h3 lang="pt">iii. Ligação</h3><h3 lang="fr">iii. Lien</h3>
+        <h3 lang="en">iii. Connection</h3><h3 lang="pt">iii. Ligação</h3><h3 lang="es">iii. Conexión</h3><h3 lang="fr">iii. Lien</h3>
         <p class="muted" lang="en">Valleys, habitats and 25,000 years of human history, working together.</p>
         <p class="muted" lang="pt">Vales, habitats e 25 000 anos de história humana, a funcionar em conjunto.</p>
+        <p class="muted" lang="es">Valles, hábitats y 25 000 años de historia humana, funcionando juntos.</p>
         <p class="muted" lang="fr">Vallées, habitats et 25 000 ans d'histoire humaine, qui fonctionnent ensemble.</p>
       </div>
       <figure>
@@ -252,6 +272,7 @@ footer p { margin: 0 0 .5em; }
           <img src="img/connection.jpg" alt="Field illustration: Connection" onerror="this.remove()">
           <span class="label" lang="en">Plate in progress<br>Côa gorge and Penascosa rock art</span>
           <span class="label" lang="pt">Prancha em curso<br>Garganta do Côa e gravuras da Penascosa</span>
+          <span class="label" lang="es">Lámina en curso<br>Cañón del Côa y grabados de Penascosa</span>
           <span class="label" lang="fr">Planche en cours<br>Gorges du Côa et gravures de Penascosa</span>
         </div>
       </figure>
@@ -259,6 +280,7 @@ footer p { margin: 0 0 .5em; }
         <img src="img/map-connection.png" alt="Map of multispecies mean connectivity across the Côa catchment, strongest along the lower Côa" loading="lazy">
         <figcaption lang="en">Multispecies connectivity, weighted mean of land, water and air. The strongest corridor follows the lower Côa north to the Douro.</figcaption>
         <figcaption lang="pt">Conectividade multiespécies, média ponderada de terra, água e ar. O corredor mais forte segue o baixo Côa para norte, até ao Douro.</figcaption>
+        <figcaption lang="es">Conectividad multiespecie, media ponderada de tierra, agua y aire. El corredor más fuerte sigue el bajo Côa hacia el norte, hasta el Duero.</figcaption>
         <figcaption lang="fr">Connectivité multi-espèces, moyenne pondérée terre, eau et air. Le corridor le plus fort suit le bas Côa vers le nord, jusqu'au Douro.</figcaption>
       </figure>
     </div>
@@ -266,14 +288,17 @@ footer p { margin: 0 0 .5em; }
     <!-- Field sites -->
     <h3 lang="en">Where the drawings were made</h3>
     <h3 lang="pt">Onde os desenhos foram feitos</h3>
+    <h3 lang="es">Dónde se hicieron los dibujos</h3>
     <h3 lang="fr">Où les dessins ont été faits</h3>
     <p class="muted" lang="en">Twenty field sites visited in August 2026, from the source of the Côa at Fóios to Faia Brava. Species records are not shown, to protect sensitive animals.</p>
     <p class="muted" lang="pt">Vinte locais visitados em agosto de 2026, da nascente do Côa, em Fóios, até à Faia Brava. Os registos de espécies não são mostrados, para proteger animais sensíveis.</p>
+    <p class="muted" lang="es">Veinte lugares visitados en agosto de 2026, desde el nacimiento del Côa en Fóios hasta Faia Brava. No se muestran los registros de especies, para proteger a los animales sensibles.</p>
     <p class="muted" lang="fr">Vingt sites visités en août 2026, de la source du Côa à Fóios jusqu'à Faia Brava. Les observations d'espèces ne sont pas affichées, pour protéger les animaux sensibles.</p>
     <div id="sitemap" role="region" aria-label="Map of field sites"></div>
 
     <h3 style="margin-top:32px" lang="en">Supporting studies</h3>
     <h3 style="margin-top:32px" lang="pt">Estudos de apoio</h3>
+    <h3 style="margin-top:32px" lang="es">Estudios de apoyo</h3>
     <h3 style="margin-top:32px" lang="fr">Études préparatoires</h3>
     <div class="sketches" id="sketches"></div>
   </section>
@@ -282,6 +307,7 @@ footer p { margin: 0 0 .5em; }
   <section id="why">
     <h2 lang="en">Why draw and map the same valley</h2>
     <h2 lang="pt">Porquê desenhar e mapear o mesmo vale</h2>
+    <h2 lang="es">Por qué dibujar y cartografiar el mismo valle</h2>
     <h2 lang="fr">Pourquoi dessiner et cartographier la même vallée</h2>
 
     <div lang="en">
@@ -296,6 +322,12 @@ footer p { margin: 0 0 .5em; }
       <p>"Seguro e justo" não nasceu como um quadro científico. Vem da Ciência Indígena e da justiça climática liderada por comunidades (Jessica Hernandez, <em>Fresh Banana Leaves</em>, 2022), e só mais tarde foi quantificado pela Earth Commission (Rockström, Gupta et al., <em>Nature</em>, 2023). Cresci na Wild Coast, na África do Sul, e trabalhei ali em restauro de terras depois do apartheid; é desse ponto de partida que leio este vale. Um corredor que funciona para a vida selvagem é metade do trabalho. A outra metade é saber quem o pode usar, e quem decide.</p>
       <p class="question">Quem desenha o mapa do seu vale, e quem falta na sala quando ele é desenhado?</p>
     </div>
+    <div lang="es">
+      <p>Pasé agosto de 2026 recorriendo y dibujando el Côa, desde su nacimiento en Fóios hasta los grabados rupestres de Penascosa, mientras modelaba cómo podrían desplazarse los animales por ese mismo territorio. Los dos métodos se corrigen entre sí. (i) El dibujo ralentiza la mirada y capta lo que el modelo no ve: una valla nueva, una charca seca, un puente de piedra que una nutria todavía usa. (ii) El mapa muestra lo que quien camina no puede ver: los puntos de estrangulamiento donde una sola carretera nueva cortaría un corredor. (iii) Juntos forman un argumento a favor de la restauración que quienes viven en el valle pueden leer, y cuestionar.</p>
+      <p>Los mapas son modelos, no recuentos. Muestran dónde es probable que se concentre el movimiento, no dónde alguien ha visto un lobo.</p>
+      <p>"Seguro y justo" no nació como un marco científico. Viene de la Ciencia Indígena y de la justicia climática impulsada por las comunidades (Jessica Hernandez, <em>Fresh Banana Leaves</em>, 2022), y solo más tarde la Earth Commission lo tradujo en cifras (Rockström, Gupta et al., <em>Nature</em>, 2023). Crecí en la Wild Coast de Sudáfrica y trabajé allí en la restauración de tierras después del apartheid; leo este valle desde ese punto de partida. Un corredor que funciona para la fauna es la mitad del trabajo. La otra mitad es quién puede usarlo, y quién decide.</p>
+      <p class="question">¿Quién dibuja el mapa de su valle, y quién falta en la sala cuando se dibuja?</p>
+    </div>
     <div lang="fr">
       <p>J'ai passé août 2026 à parcourir et dessiner le Côa, de sa source à Fóios jusqu'aux gravures de Penascosa, tout en modélisant la façon dont les animaux peuvent traverser ce même territoire. Les deux méthodes se corrigent l'une l'autre. (i) Le dessin ralentit le regard et saisit ce que le modèle ne voit pas : une clôture neuve, une mare asséchée, un pont de pierre qu'une loutre emprunte encore. (ii) La carte montre ce qu'un marcheur seul ne peut pas voir : les points de pincement où une seule route nouvelle couperait un corridor. (iii) Ensemble, ils forment un argument en faveur de la restauration que les habitants de la vallée peuvent lire, et contester.</p>
       <p>Les cartes sont des modèles, pas des comptages. Elles montrent où le mouvement a des chances de se concentrer, pas où quelqu'un a vu un loup.</p>
@@ -308,31 +340,36 @@ footer p { margin: 0 0 .5em; }
   <section id="join">
     <h2 lang="en">Join the Côa call</h2>
     <h2 lang="pt">Junte-se à chamada do Côa</h2>
+    <h2 lang="es">Súmese a la convocatoria del Côa</h2>
     <h2 lang="fr">Rejoindre l'appel du Côa</h2>
     <p lang="en">An open invitation to illustrators, field-notebook keepers, ecologists, farmers and anyone who lives near the Côa, or cares about a river of their own. You do not need experience, funding or to travel.</p>
     <p lang="pt">Um convite aberto a ilustradores, a quem mantém cadernos de campo, ecólogos, agricultores e a quem vive perto do Côa, ou se preocupa com um rio seu. Não é preciso experiência, financiamento nem viajar.</p>
+    <p lang="es">Una invitación abierta a ilustradores, a quienes llevan cuadernos de campo, ecólogos, agricultores y a cualquier persona que viva cerca del Côa, o que se preocupe por un río propio. No hace falta experiencia, financiación ni viajar.</p>
     <p lang="fr">Une invitation ouverte aux illustrateurs, aux tenants de carnets de terrain, aux écologues, aux agriculteurs et à toute personne qui vit près du Côa, ou qui tient à sa propre rivière. Pas besoin d'expérience, de financement ni de voyager.</p>
 
     <div class="ways">
       <div class="card">
         <div class="num">i.</div>
-        <h3 lang="en">Witness</h3><h3 lang="pt">Testemunhar</h3><h3 lang="fr">Témoigner</h3>
+        <h3 lang="en">Witness</h3><h3 lang="pt">Testemunhar</h3><h3 lang="es">Acompañar</h3><h3 lang="fr">Témoigner</h3>
         <p lang="en">Follow the month and share the weekly posts with your own networks.</p>
         <p lang="pt">Acompanhe o mês e partilhe as publicações semanais nas suas redes.</p>
+        <p lang="es">Siga el mes y comparta las publicaciones semanales en sus redes.</p>
         <p lang="fr">Suivez le mois et partagez les publications hebdomadaires dans vos réseaux.</p>
       </div>
       <div class="card">
         <div class="num">ii.</div>
-        <h3 lang="en">Contribute one page</h3><h3 lang="pt">Contribuir com uma página</h3><h3 lang="fr">Contribuer une page</h3>
+        <h3 lang="en">Contribute one page</h3><h3 lang="pt">Contribuir com uma página</h3><h3 lang="es">Aportar una página</h3><h3 lang="fr">Contribuer une page</h3>
         <p lang="en">One place, one species, one sentence. Pencil, watercolour, phone photo or a map, from the field or from home.</p>
         <p lang="pt">Um lugar, uma espécie, uma frase. Lápis, aguarela, fotografia de telemóvel ou um mapa, no campo ou em casa.</p>
+        <p lang="es">Un lugar, una especie, una frase. Lápiz, acuarela, foto con el móvil o un mapa, desde el campo o desde casa.</p>
         <p lang="fr">Un lieu, une espèce, une phrase. Crayon, aquarelle, photo au téléphone ou carte, sur le terrain ou chez vous.</p>
       </div>
       <div class="card">
         <div class="num">iii.</div>
-        <h3 lang="en">Co-create</h3><h3 lang="pt">Cocriar</h3><h3 lang="fr">Co-créer</h3>
+        <h3 lang="en">Co-create</h3><h3 lang="pt">Cocriar</h3><h3 lang="es">Cocrear</h3><h3 lang="fr">Co-créer</h3>
         <p lang="en">Add your page to a shared map and zine of the Côa corridor, published on Human Rights Day.</p>
         <p lang="pt">Junte a sua página a um mapa e a um zine coletivos do corredor do Côa, publicados no Dia dos Direitos Humanos.</p>
+        <p lang="es">Añada su página a un mapa y un fanzine colectivos del corredor del Côa, publicados el Día de los Derechos Humanos.</p>
         <p lang="fr">Ajoutez votre page à une carte et un fanzine collectifs du corridor du Côa, publiés le jour des droits de l'homme.</p>
       </div>
     </div>
@@ -340,31 +377,33 @@ footer p { margin: 0 0 .5em; }
     <table class="timeline">
       <tbody>
         <tr>
-          <th lang="en">6 to 23 October</th><th lang="pt">6 a 23 de outubro</th><th lang="fr">6 au 23 octobre</th>
-          <td lang="en">Sign-up open</td><td lang="pt">Inscrições abertas</td><td lang="fr">Inscriptions ouvertes</td>
+          <th lang="en">6 to 23 October</th><th lang="pt">6 a 23 de outubro</th><th lang="es">6 al 23 de octubre</th><th lang="fr">6 au 23 octobre</th>
+          <td lang="en">Sign-up open</td><td lang="pt">Inscrições abertas</td><td lang="es">Inscripciones abiertas</td><td lang="fr">Inscriptions ouvertes</td>
         </tr>
         <tr>
-          <th lang="en">26 October</th><th lang="pt">26 de outubro</th><th lang="fr">26 octobre</th>
-          <td lang="en">Welcome pack and a short online kick-off</td><td lang="pt">Kit de boas-vindas e uma curta sessão de arranque online</td><td lang="fr">Kit de bienvenue et courte réunion de lancement en ligne</td>
+          <th lang="en">26 October</th><th lang="pt">26 de outubro</th><th lang="es">26 de octubre</th><th lang="fr">26 octobre</th>
+          <td lang="en">Welcome pack and a short online kick-off</td><td lang="pt">Kit de boas-vindas e uma curta sessão de arranque online</td><td lang="es">Kit de bienvenida y una breve reunión de lanzamiento en línea</td><td lang="fr">Kit de bienvenue et courte réunion de lancement en ligne</td>
         </tr>
         <tr>
-          <th lang="en">1 November</th><th lang="pt">1 de novembro</th><th lang="fr">1er novembre</th>
-          <td lang="en">The month opens. A new prompt every Monday, a round-up every Friday</td><td lang="pt">Abertura do mês. Um novo tema cada segunda-feira, um resumo cada sexta-feira</td><td lang="fr">Ouverture du mois. Une nouvelle consigne chaque lundi, un récapitulatif chaque vendredi</td>
+          <th lang="en">1 November</th><th lang="pt">1 de novembro</th><th lang="es">1 de noviembre</th><th lang="fr">1er novembre</th>
+          <td lang="en">The month opens. A new prompt every Monday, a round-up every Friday</td><td lang="pt">Abertura do mês. Um novo tema cada segunda-feira, um resumo cada sexta-feira</td><td lang="es">Comienza el mes. Una nueva consigna cada lunes, un resumen cada viernes</td><td lang="fr">Ouverture du mois. Une nouvelle consigne chaque lundi, un récapitulatif chaque vendredi</td>
         </tr>
         <tr>
-          <th lang="en">10 December</th><th lang="pt">10 de dezembro</th><th lang="fr">10 décembre</th>
-          <td lang="en">Human Rights Day. Closing gallery and zine</td><td lang="pt">Dia dos Direitos Humanos. Galeria e zine de encerramento</td><td lang="fr">Journée des droits de l'homme. Galerie et fanzine de clôture</td>
+          <th lang="en">10 December</th><th lang="pt">10 de dezembro</th><th lang="es">10 de diciembre</th><th lang="fr">10 décembre</th>
+          <td lang="en">Human Rights Day. Closing gallery and zine</td><td lang="pt">Dia dos Direitos Humanos. Galeria e zine de encerramento</td><td lang="es">Día de los Derechos Humanos. Galería y fanzine de cierre</td><td lang="fr">Journée des droits de l'homme. Galerie et fanzine de clôture</td>
         </tr>
       </tbody>
     </table>
 
-    <h3 lang="en">How to join</h3><h3 lang="pt">Como participar</h3><h3 lang="fr">Comment participer</h3>
+    <h3 lang="en">How to join</h3><h3 lang="pt">Como participar</h3><h3 lang="es">Cómo participar</h3><h3 lang="fr">Comment participer</h3>
     <p lang="en">Introduce yourself in the <a href="https://github.com/coa-connectivity-lab/global-artivism/discussions">project discussion</a>: your name, your place, and which of the three ways you would like to take part.</p>
     <p lang="pt">Apresente-se na <a href="https://github.com/coa-connectivity-lab/global-artivism/discussions">discussão do projeto</a>: o seu nome, o seu lugar e qual das três formas de participação prefere.</p>
+    <p lang="es">Preséntese en la <a href="https://github.com/coa-connectivity-lab/global-artivism/discussions">discusión del proyecto</a>: su nombre, su lugar y cuál de las tres formas de participar prefiere.</p>
     <p lang="fr">Présentez-vous dans la <a href="https://github.com/coa-connectivity-lab/global-artivism/discussions">discussion du projet</a> : votre nom, votre lieu, et laquelle des trois façons de participer vous intéresse.</p>
     <!-- TODO before 6 October: add a contact for people without a GitHub account -->
     <p class="note" lang="en">No GitHub account? A photo of a paper page is enough. A contact that does not need an account will be added here before sign-up opens on 6 October.</p>
     <p class="note" lang="pt">Não tem conta no GitHub? Uma fotografia de uma página em papel basta. Um contacto que não exige conta será indicado aqui antes da abertura das inscrições, a 6 de outubro.</p>
+    <p class="note" lang="es">¿No tiene cuenta en GitHub? Basta con una foto de una página en papel. Antes de que se abran las inscripciones, el 6 de octubre, se indicará aquí un contacto que no requiere cuenta.</p>
     <p class="note" lang="fr">Pas de compte GitHub ? Une photo d'une page papier suffit. Un contact ne nécessitant pas de compte sera indiqué ici avant l'ouverture des inscriptions, le 6 octobre.</p>
   </section>
 
@@ -372,12 +411,15 @@ footer p { margin: 0 0 .5em; }
   <section id="rights">
     <h2 lang="en">Rights and consent</h2>
     <h2 lang="pt">Direitos e consentimento</h2>
+    <h2 lang="es">Derechos y consentimiento</h2>
     <h2 lang="fr">Droits et consentement</h2>
     <p lang="en">(i) You keep the rights to your work. (ii) Pages are shared under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a> unless you ask otherwise. (iii) Inclusion in the printed zine is opt-in. (iv) Do not show people, or exact locations of sensitive species, in ways that could put anyone at risk.</p>
     <p lang="pt">(i) Os direitos da obra são seus. (ii) As páginas são partilhadas sob <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.pt">CC BY-NC 4.0</a>, salvo pedido em contrário. (iii) A inclusão no zine impresso é opcional. (iv) Não mostre pessoas, nem a localização exata de espécies sensíveis, de forma que possa pôr alguém em risco.</p>
+    <p lang="es">(i) Los derechos de la obra son suyos. (ii) Las páginas se comparten bajo <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.es">CC BY-NC 4.0</a>, salvo que pida lo contrario. (iii) La inclusión en el fanzine impreso es voluntaria. (iv) No muestre a personas, ni la ubicación exacta de especies sensibles, de forma que pueda poner a alguien en riesgo.</p>
     <p lang="fr">(i) Vous gardez les droits sur votre œuvre. (ii) Les pages sont partagées sous <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.fr">CC BY-NC 4.0</a>, sauf demande contraire. (iii) L'inclusion dans le fanzine imprimé se fait sur accord. (iv) Ne montrez pas de personnes, ni la localisation exacte d'espèces sensibles, d'une manière qui pourrait mettre quelqu'un en danger.</p>
     <p class="muted" lang="en">This is a locally organised action registered for Global Artivism Month. It is not run by the Global Artivism team.</p>
     <p class="muted" lang="pt">Esta é uma ação organizada localmente e inscrita no Mês Global do Artivismo. Não é gerida pela equipa do Global Artivism.</p>
+    <p class="muted" lang="es">Se trata de una acción organizada localmente e inscrita en el Mes Global del Artivismo. No la gestiona el equipo de Global Artivism.</p>
     <p class="muted" lang="fr">Il s'agit d'une action organisée localement et inscrite au Mois mondial de l'artivisme. Elle n'est pas gérée par l'équipe de Global Artivism.</p>
   </section>
 </main>
@@ -386,22 +428,25 @@ footer p { margin: 0 0 .5em; }
   <div class="wrap">
     <p lang="en">Maps: Linda Angulo Lopez, from the <a href="https://www.data.gouv.fr/datasets/coa-valley-eco-connectivity-v6">Côa Valley Eco-Connectivity v6</a> dataset (Licence Ouverte 2.0). Underlying data: OpenStreetMap contributors (ODbL), HydroRIVERS (CC BY 4.0), NASA MODIS MCD64A1, Copernicus.</p>
     <p lang="pt">Mapas: Linda Angulo Lopez, a partir do conjunto de dados <a href="https://www.data.gouv.fr/datasets/coa-valley-eco-connectivity-v6">Côa Valley Eco-Connectivity v6</a> (Licence Ouverte 2.0). Dados de base: contribuidores do OpenStreetMap (ODbL), HydroRIVERS (CC BY 4.0), NASA MODIS MCD64A1, Copernicus.</p>
+    <p lang="es">Mapas: Linda Angulo Lopez, a partir del conjunto de datos <a href="https://www.data.gouv.fr/datasets/coa-valley-eco-connectivity-v6">Côa Valley Eco-Connectivity v6</a> (Licence Ouverte 2.0). Datos de base: colaboradores de OpenStreetMap (ODbL), HydroRIVERS (CC BY 4.0), NASA MODIS MCD64A1, Copernicus.</p>
     <p lang="fr">Cartes : Linda Angulo Lopez, d'après le jeu de données <a href="https://www.data.gouv.fr/datasets/coa-valley-eco-connectivity-v6">Côa Valley Eco-Connectivity v6</a> (Licence Ouverte 2.0). Données sources : contributeurs OpenStreetMap (ODbL), HydroRIVERS (CC BY 4.0), NASA MODIS MCD64A1, Copernicus.</p>
     <p lang="en">Illustrations and text: Linda Angulo Lopez, 2026, <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. Code: <a href="https://github.com/coa-connectivity-lab/global-artivism">github.com/coa-connectivity-lab/global-artivism</a>.</p>
     <p lang="pt">Ilustrações e texto: Linda Angulo Lopez, 2026, <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.pt">CC BY-NC 4.0</a>. Código: <a href="https://github.com/coa-connectivity-lab/global-artivism">github.com/coa-connectivity-lab/global-artivism</a>.</p>
+    <p lang="es">Ilustraciones y texto: Linda Angulo Lopez, 2026, <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.es">CC BY-NC 4.0</a>. Código: <a href="https://github.com/coa-connectivity-lab/global-artivism">github.com/coa-connectivity-lab/global-artivism</a>.</p>
     <p lang="fr">Illustrations et texte : Linda Angulo Lopez, 2026, <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.fr">CC BY-NC 4.0</a>. Code : <a href="https://github.com/coa-connectivity-lab/global-artivism">github.com/coa-connectivity-lab/global-artivism</a>.</p>
   </div>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
-// Language: saved choice, else browser language, else English
+// Language: ?lang= in the URL, else saved choice, else browser language, else English
 (function () {
-  var supported = ["en", "pt", "fr"];
+  var supported = ["en", "pt", "es", "fr"];
+  var fromUrl = new URLSearchParams(location.search).get("lang");
   var saved = null;
   try { saved = localStorage.getItem("ga-lang"); } catch (e) {}
   var browser = (navigator.language || "en").slice(0, 2);
-  var lang = supported.indexOf(saved) > -1 ? saved : (supported.indexOf(browser) > -1 ? browser : "en");
+  var lang = [fromUrl, saved, browser].filter(function (l) { return supported.indexOf(l) > -1; })[0] || "en";
 
   function setLang(l) {
     document.documentElement.setAttribute("data-ui", l);

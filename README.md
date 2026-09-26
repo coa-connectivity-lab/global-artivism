@@ -9,7 +9,7 @@ The site does two things: (i) it is the link for the "Share my art" submission o
 ## Structure
 
 ```
-index.html              single self-contained page (EN / PT / FR), no build step
+index.html              single self-contained page (EN / PT / ES / FR); link a language with ?lang=es, no build step
 img/                    rendered maps + illustration slots (see img/README.md)
 data/field-sites.geojson field sites for the Leaflet map (Côa study area, non-sensitive only)
 scripts/render_maps.py  renders img/map-*.png and data/field-sites.geojson
@@ -31,7 +31,7 @@ Drop scans into `img/` with the names listed in [img/README.md](img/README.md). 
 
 ## Text
 
-English is the reference text. The Portuguese and French versions are drafts and need review before 6 October.
+English is the reference text. The Portuguese, Spanish and French versions are drafts and need review before 6 October.
 
 ## Licence
 
