@@ -6,6 +6,14 @@ Live site: https://coa-connectivity-lab.github.io/global-artivism/
 
 The site does two things: (i) it is the link for the "Share my art" submission on the Global Artivism Month participation form, and (ii) it hosts the open Côa call for participants during the month.
 
+## Illustration method
+
+The page's "New animals in an old line" series draws the European rabbit, the European wildcat and the Mediterranean pond turtle in the fine-line style of the Côa Valley's Iron Age engravings. The method (study the line, study the animal, reduce to a profile, cut the line, caption honestly, pair with evidence) follows Section 8 of the preprint:
+
+Angulo Lopez, L. (2026). *Rabbits, wildcats, pond turtles and a river that stayed: a synthesis and research agenda for trophic and hydrological rewilding in the Greater Côa Valley, Portugal*. Preprint v0.1, Zenodo. <https://zenodo.org/records/22997241>
+
+Source files (article, PDF, reading list): <https://github.com/coa-connectivity-lab/Solo-field-illustrator-project-for-Rewilding-Portugal/tree/main/research/rewilding-dynamics>
+
 ## Structure
 
 ```
