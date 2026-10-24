@@ -21,7 +21,10 @@ index.html              single self-contained page (EN / PT / ES / FR); link a l
 img/                    rendered maps + illustration slots (see img/README.md)
 data/field-sites.geojson field sites for the Leaflet map (Côa study area, non-sensitive only)
 scripts/render_maps.py  renders img/map-*.png and data/field-sites.geojson
+scripts/digital_plates.py draws the digital plate studies (rabbit, wildcat, pond turtle)
 ```
+
+The two release screening maps in "Supporting studies" (`img/release-candidates-*.png`) are made by `research/rewilding-dynamics/scripts/release_candidates.py` in the source repo, from the v6 bundle, ESA WorldCover 2021, JRC Global Surface Water 2021 and GBIF records generalised to 5 km.
 
 ## Rerun the maps
 
@@ -32,6 +35,20 @@ conda run -n coa python scripts/render_maps.py
 ```
 
 It needs rioxarray, geopandas and matplotlib.
+
+## Redraw the digital plate studies
+
+`scripts/digital_plates.py` draws the European rabbit, the European wildcat and the Mediterranean pond turtle as rough burnt sienna lines on a greyscale schist surface, after the Iron Age fine-line engravings of the Côa (preprint §8.2-8.3). The stone is generated, not photographed: foliation and cracks run NNE-SSW and the surface is pitted, as on the Côa panels. Each plate keeps one diagnostic feature (the rabbit's ears and short tail, the wildcat's blunt ringed tail, the turtle's low shell and striped neck) and is captioned as a new work, not an ancient motif.
+
+```bash
+conda run -n coa python scripts/digital_plates.py
+```
+
+It writes `img/digital-studies/digital-study-plate-*.jpg` (1600 x 2000 px, 4:5) and needs numpy, scipy, shapely and Pillow. The Exo 2 caption font (SIL OFL) is downloaded on first run. The Global Artivism Month logo is not in this repo: to add it to the caption band, save the white logo from the GAM comms kit as `img/gam-logo-white.png`. The drawings are seeded, so a rerun gives the same plates.
+
+These are digital studies. The plates themselves are cut by hand (preprint §8.3, step iv).
+
+AI assistance: the script was written with Claude (Anthropic) from Linda's method and art direction, and reviewed by Linda.
 
 ## Add the illustrations
 
