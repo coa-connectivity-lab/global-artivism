@@ -4,7 +4,7 @@ Field illustration and GIS maps from the Côa Valley, Portugal. A coa-connectivi
 
 Live site: https://coa-connectivity-lab.github.io/global-artivism/
 
-The site does two things: (i) it is the link for the "Share my art" submission on the Global Artivism Month participation form, and (ii) it hosts the open Côa call for participants during the month.
+The site does two things: (i) it is the link for the "Share my art" submission on the Global Artivism Month participation form, and (ii) it hosted the Côa call for participants, which closed on 23 October 2026, and carries the month's prompts and round-ups.
 
 ## Illustration method
 
