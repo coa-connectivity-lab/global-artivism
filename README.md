@@ -22,6 +22,7 @@ img/                    rendered maps + illustration slots (see img/README.md)
 data/field-sites.geojson field sites for the Leaflet map (Côa study area, non-sensitive only)
 scripts/render_maps.py  renders img/map-*.png and data/field-sites.geojson
 scripts/digital_plates.py draws the digital plate studies (rabbit, wildcat, pond turtle)
+scripts/digital_landscapes.py draws the three landscape studies (Movement, Water, Connection)
 ```
 
 The two release screening maps in "Supporting studies" (`img/release-candidates-*.png`) are made by `research/rewilding-dynamics/scripts/release_candidates.py` in the source repo, from the v6 bundle, ESA WorldCover 2021, JRC Global Surface Water 2021 and GBIF records generalised to 5 km.
@@ -45,6 +46,8 @@ conda run -n coa python scripts/digital_plates.py
 ```
 
 It writes `img/digital-studies/digital-study-plate-*.jpg` (1600 x 2000 px, 4:5) and needs numpy, scipy, shapely and Pillow. The Exo 2 caption font (SIL OFL) is downloaded on first run. The Global Artivism Month logo is not in this repo: to add it to the caption band, save the white logo from the GAM comms kit as `img/gam-logo-white.png`. The drawings are seeded, so a rerun gives the same plates.
+
+`scripts/digital_landscapes.py` uses the same surface, line and colour for the three landscape plates: i. Movement (Vale Carapito: horses, Tauros cattle, a wolf, fishbone trees), ii. Water (Paul de Toirões: open water, reeds, a heron and ducks, old drainage ditches fading into the marsh) and iii. Connection (the Côa gorge: stratified walls, the free-flowing river, a rock panel, terraces, a walker and a vulture). Run it the same way; it writes `img/digital-studies/digital-study-{movement,water,connection}.jpg`, which the page shows as `img/movement.jpg`, `img/water.jpg` and `img/connection.jpg`.
 
 These are digital studies. The plates themselves are cut by hand (preprint §8.3, step iv).
 

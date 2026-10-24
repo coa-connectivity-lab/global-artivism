@@ -398,6 +398,7 @@ PLATES = [
                                         "line": "The animal that holds on in the river's summer pools."}),
 ]
 
-for draw, stone_seed, name, caption in PLATES:
-    plate = draw()
-    plate.render(schist(stone_seed), {**caption, "credit": CREDIT}, OUT / f"digital-study-{name}.jpg")
+if __name__ == "__main__":
+    for draw, stone_seed, name, caption in PLATES:
+        plate = draw()
+        plate.render(schist(stone_seed), {**caption, "credit": CREDIT}, OUT / f"digital-study-{name}.jpg")
