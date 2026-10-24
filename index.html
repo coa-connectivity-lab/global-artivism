@@ -546,14 +546,13 @@ footer p { margin: 0 0 .5em; }
   setLang(lang);
 })();
 
-// Supporting-sketch slots: drop sketch-01.jpg ... sketch-12.jpg into img/
+// Supporting sketches: drop sketch-01.jpg ... sketch-12.jpg into img/; slots without a file are removed
 (function () {
   var grid = document.getElementById("sketches");
   for (var i = 1; i <= 12; i++) {
     var n = String(i).padStart(2, "0");
     grid.insertAdjacentHTML("beforeend",
-      '<div class="slot"><img src="img/sketch-' + n + '.jpg" alt="Supporting study ' + i + '" loading="lazy" onerror="this.remove()">' +
-      '<span class="label">' + i + '</span></div>');
+      '<div class="slot"><img src="img/sketch-' + n + '.jpg" alt="Supporting study ' + i + '" loading="lazy" onerror="this.parentNode.remove()"></div>');
   }
 })();
 
